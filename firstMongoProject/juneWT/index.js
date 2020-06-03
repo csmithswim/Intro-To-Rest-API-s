@@ -14,9 +14,18 @@ const express = require('express'),
     
      connectionURI = process.env.MONGO;
 
-     console.log(connectionURI);
+    homeRouter = require('./routes/homeRouter');
 
-     console.log(port);
+
+    //some middleware needs to go before others
+    server.use(morgan('dev'))
+
+    server.use(express.json());
+
+
+    //express.json and morgan must be called before homerouter
+    server.use('/', homeRouter);
+
 
       mongoose.connect(connectionURI, deprecatedObj, () => {
 
@@ -34,7 +43,6 @@ mongoose.connection.on('connected', () => {
     console.log('The Server is attempting to connect to the database...')
 
 })
-
 
 server.listen(port, () => {
 
