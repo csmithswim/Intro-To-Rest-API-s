@@ -8,9 +8,9 @@ const express = require('express'),
 
     mongoose = require('mongoose'),
 
-    port = process.env.PORT || 3000,
+    port = process.env.PORT || 3001,
 
-    deprecatedObj = { useUnifiedTopology: true, useNewUrlParser: true},
+    deprecatedObj = { useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true},
     
      connectionURI = process.env.MONGO;
 
