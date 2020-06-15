@@ -192,21 +192,30 @@ function displayMovies(allMovies){//Always an array, even if there is zero movie
 
     for (let i = 0; i < allMovies.length; i++) {
 
-        const movieData = allMovies[i];
+        const movieData = allMovies[i],
 
-        let movieTitle = createHeading({size: 2, text: movieData.title}),
-        movieRD = createHeading({text: `Year Released ${movieData.release}`, size: 4});
-       
-        // const movieImg = document.createElement('img');      
-        
-        // title.innerText = movieData.title;
-  
-        // movieImg.src = movieData.img;
-        // movieImg.alt = movieData.title + 'IMG'
+        singleMovieDiv = createDivElement({class: 'movies'}),
 
+        movieImgDiv = createDivElement({class: 'movieImgDiv'}),
 
-        document.body.appendChild(movieTitle)
-        document.body.appendChild(movieRD)
-        // document.body.appendChild(img)
+        movieTitle = createHeading({size: 2, text: movieData.title}),
+
+        movieRD = createHeading({text: `Year Released ${movieData.release}`, size: 4}),
+
+        IMDBlink = createHyperLink({hrefLink: movieData.imbdLink, text: movieData.title + ' IMDB Page', class: 'imbdlink'}),
+
+        movieImage = createImg({class: 'movieImages', src: movieData.img, alt: movieData.title + ' Image'});
+
+        singleMovieDiv.appendChild(movieTitle);
+
+        singleMovieDiv.appendChild(movieImgDiv);
+
+        singleMovieDiv.appendChild(movieRD);
+
+        singleMovieDiv.appendChild(IMDBlink);
+
+        document.body.appendChild(singleMovieDiv);
+
+        movieImgDiv.appendChild(movieImage);
     }
 }
