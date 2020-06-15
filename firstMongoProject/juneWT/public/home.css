@@ -1,0 +1,97 @@
+body {
+    background-color: slategray;
+}
+
+#mainContainer {
+    display: flex;
+
+}
+
+
+#movieDisplays {
+
+    flex: 1;
+}
+
+
+#sideBar {
+    flex: .3;
+    
+    transition-duration: 1s;
+}
+
+.clickme {
+
+position: relative; 
+
+
+
+background-color: black
+color  white
+
+
+
+}
+
+#sideBar:hover {
+
+    background-color: pink;
+
+    padding: 10px;
+
+    border-radius: 25px;
+}
+
+#sideBar>h2:hover{
+
+    background-color: hotpink;
+
+   
+
+    transition-duration: 1s;
+}
+
+
+#aDiv {
+
+    background-color: purple;
+}
+
+#rDiv {
+
+    background-color: seagreen;
+}
+
+.movieDivs {
+
+    margin: 10%;
+
+    border-radius: 40px;
+
+    display: flex;
+
+    flex-wrap: wrap;
+}
+
+.movies {
+    background-color: sienna;
+
+    margin-top: 10%;
+    margin-left: 4%;
+    margin-right: 4%;
+    margin-bottom: 4%;
+
+    text-align: center;
+    
+
+}
+
+.movieImages {
+
+    width: 200px;
+
+    height: 300px;
+
+    padding: 10px;
+    
+}
