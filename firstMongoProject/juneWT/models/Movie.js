@@ -51,13 +51,14 @@ const Movie = new mongoose.Schema({
 
         required: false,
 
-        type: Array,
+        type: Object,
 
-        default: []
+        default: {
+
+                available: 1, //giving it a type Number is for validation when you give a post request.
+                rented: 0
+        }
     }
 })
 
 module.exports = mongoose.model('Movie', Movie); //What the collection gets called.
-
-// "title":"Looper","release":2012,"available":false,"imbdLink":"https://www.imdb.com/title/tt1276104/","img"
-

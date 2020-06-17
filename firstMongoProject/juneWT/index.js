@@ -24,13 +24,19 @@ const express = require('express'),
 
     server.use(express.json());
 
-    server.use(express.static('./public'));
+    server.set('view engine', 'pug');//Setting up a link between pug and our server.
+
+
+    server.use(express.static('public'));
+    server.use
+
+    // server.use(('/mrental', express.static('./public/homeStatic/')));
+    // server.use(('/mrental/static', express.static('./public/homeStatic/static-homePage')));
     
     //express.json and morgan must be called before homerouter
     server.use('/', homeRouter);
 
     server.use('/movie', movieRouter)//We do not need to specify movie in our movieRouter program
-
 
       mongoose.connect(connectionURI, deprecatedObj, () => {
 

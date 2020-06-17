@@ -42,7 +42,7 @@ app.use(express.static(__dirname + '/static/'));
 app.use(morgan('dev'));
 app.use(express.json()) //call the JSON method of express for every POST/GET request.
 
-//Middleware that will be execuyed on specific routes
+//Middleware that will be executed on specific routes
 
 //homepage
 

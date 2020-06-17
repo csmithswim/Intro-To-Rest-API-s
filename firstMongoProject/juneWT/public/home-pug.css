@@ -1,0 +1,33 @@
+body {
+
+    background-color: blue;
+}
+
+
+
+.allMovies {
+    background-color: blue;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.Movie {
+
+
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+
+    margin: 2%;
+
+    text-align: center;
+    
+
+}
+
+.Movie img {
+width: 200px;
+height: auto;
+
+}
+

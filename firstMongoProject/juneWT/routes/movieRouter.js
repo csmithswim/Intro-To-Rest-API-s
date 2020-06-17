@@ -7,7 +7,6 @@ const Movie = require('../models/Movie');  //MongoDB collection is accessible th
 const findMovie = require('../middleware/findMovie');
 
 
-
 router.get('/all', async (req, res) => { //be sure to write movie before /all in postman 
 
     try {
@@ -129,7 +128,7 @@ res.status(200).json({
 router.post('/post', async (req, res) => {
 
     try {
-        const newMovie = await new Movie(req.body);
+        const newMovie = await Movie.create(req.body);
 
         await newMovie.save()
 
