@@ -10,8 +10,6 @@ html
     body
         h1= message
 
-        button#clickMe Click me
-
         .allMovies 
             each movieData in all_movies
                 if movieData.inventory.available > 0 
@@ -23,3 +21,4 @@ html
                         button.deleteMovie Delete From Database
                         button.getMovie Get More DB info
                         button.rentMovie Rent Me
+c1
