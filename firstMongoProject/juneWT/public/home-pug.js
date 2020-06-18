@@ -6,8 +6,6 @@ function clickedBtn() {
 
 function clickedDltBtn() {
 
-
-
 }
 window.onload = () => {
 
@@ -48,9 +46,11 @@ function reqSingleMovieData () {
 
 function deleteSingleMovie() {
 
-    const movieId = this.parentElement.id,
+    const movieId = this.parentElement.id;
 
-    xhr = new XMLHttpRequest(),
+    console.log(movieId);
+    
+      xhr = new XMLHttpRequest();
 
     endpoint = `http://localhost:3001/delete/${movieId}`;
 
