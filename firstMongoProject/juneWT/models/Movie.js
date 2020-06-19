@@ -4,10 +4,6 @@ const validator = require('validator');
 
 const Movie = new mongoose.Schema({
 
-    available: {
-        required: true,
-        type: Boolean
-    }, 
     title: {
         unique: true,
         required: true,

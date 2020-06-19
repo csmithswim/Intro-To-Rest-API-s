@@ -20,6 +20,12 @@ router.get('/mrental', async (req, res) => {
     res.render('home', {all_movies: allMovies, message: clientMsg})
 })
 
+router.get('/mrental/new/', async (req, res) => {
+
+    res.render('newMovie') //making a new render using a new pug file called newMovie
+})
+
+
 router.get('/', (req, res) => {
 
     res.render('test', {message: "Test afad", titleVar: "Title Here!"})
