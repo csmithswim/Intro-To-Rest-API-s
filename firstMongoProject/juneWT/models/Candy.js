@@ -39,8 +39,8 @@ const Candy = new mongoose.Schema({
 
         default: {
 
-                available: 1, //giving it a type Number is for validation when you give a post request.
-                rented: 0
+                displayCase: 1, //giving it a type Number is for validation when you give a post request.
+                stockRoom: 0
         }
     }
 })

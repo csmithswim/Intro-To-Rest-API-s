@@ -1,0 +1,40 @@
+
+body {
+
+    background-color: blue;
+}
+
+h1 {
+
+text-align: center;
+
+}
+
+
+.allCandy {
+    background-color: blue;
+    display: flex;
+    flex-wrap: wrap;
+    
+}
+
+.Candy {
+
+
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+
+    margin: 2%;
+
+    text-align: center;
+    
+
+}
+
+.Candy img {
+width: 200px;
+height: auto;
+
+}
+

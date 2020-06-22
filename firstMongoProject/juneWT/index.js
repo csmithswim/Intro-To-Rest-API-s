@@ -18,6 +18,8 @@ const express = require('express'),
 
     movieRouter = require('./routes/movieRouter');
 
+    candyRouter = require('./routes/candyRouter');
+
 
     //some middleware needs to go before others
     server.use(morgan('dev'));
@@ -28,7 +30,7 @@ const express = require('express'),
 
 
     server.use(express.static('public'));
-    server.use
+    
 
     // server.use(('/mrental', express.static('./public/homeStatic/')));
     // server.use(('/mrental/static', express.static('./public/homeStatic/static-homePage')));
@@ -37,6 +39,8 @@ const express = require('express'),
     server.use('/', homeRouter);
 
     server.use('/movie', movieRouter)//We do not need to specify movie in our movieRouter program
+
+    server.use('/candy', candyRouter)
 
       mongoose.connect(connectionURI, deprecatedObj, () => {
 

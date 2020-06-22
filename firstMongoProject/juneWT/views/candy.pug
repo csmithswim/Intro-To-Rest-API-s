@@ -1,0 +1,23 @@
+html    
+    title Candy
+
+    style
+        include ../public/homeCandy-pug.css
+
+    script
+        include ../public/homeCandy-pug.js
+
+    body
+        h1= message
+
+        .allCandy 
+            each candyData in all_candy
+                if candyData.inventory.displayCase > 0 
+                    .Candy(id=candyData._id)
+                        h1=candyData.name
+                        h3=candyData.calories +' Calories'
+                        h3=candyData.type
+                        img(src=candyData.img, alt=`${candyData.title} Poster IMG`)
+                        button.deleteCandy Delete Candy From Database
+                        button.getCandy Get More DB info
+                        button.buyCandy Buy Candy

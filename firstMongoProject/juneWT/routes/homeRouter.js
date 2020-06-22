@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Movie = require('../models/Movie');
+const Candy = require('../models/Candy');
 
 //By default it is presumed that the views folder will have the pug files.
 
@@ -20,13 +21,24 @@ router.get('/mrental', async (req, res) => {
     res.render('home', {all_movies: allMovies, message: clientMsg})
 })
 
+router.get('/candy', async (req, res) => {
+
+    const allCandy = await Candy.find({}),
+    
+        clientMsg = 'Number of Candy: ' + allCandy.length;
+
+    res.render('candy', {all_candy: allCandy, message: clientMsg})
+})
+
+
+
 router.get('/mrental/new/', async (req, res) => {
 
     res.render('newMovie') //making a new render using a new pug file called newMovie
 })
 
 
-router.get('/', (req, res) => {
+router.get('/', (req, res) => {  //A test request
 
     res.render('test', {message: "Test afad", titleVar: "Title Here!"})
 })

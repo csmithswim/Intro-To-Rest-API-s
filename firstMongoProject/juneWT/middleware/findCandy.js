@@ -1,4 +1,4 @@
-let Movie = require('../models/Candy'); //Creating 
+let Candy = require('../models/Candy'); //Creating 
 
 async function findCandy(req, res, next) { //This is async because we are accessing the database/mongodb. 
 
@@ -11,7 +11,7 @@ async function findCandy(req, res, next) { //This is async because we are access
 
         res.status(404).json({
             status: 404,
-            message: 'No movie with the given ID'
+            message: 'No candy with the given ID'
         })
     } else {
 
