@@ -14,50 +14,40 @@ function updateMovieReq(){
 
     for (const input of updateMovieForm) {
 
-     if (input.name == 'Id') {
+    //  if (input.name == 'id') return 
 
-        movieId = input.value 
-         
-     } else {reqBody[input.name] = input.value
-         
-     }
+      reqBody[input.name] = input.value;    
 
-        }
+     } 
 
-        reqBody.inventory = {available: reqBody.available, rented: 0};
+     const reqObj = {
 
-
-
-    //make xhr
-
-
-
-    const endpoint = `${location.origin}/movie/patch/${movieId}`
-
-    reqObj = {
+        url: endpoint, 
 
         headers: {
 
-            'Access-Control-Allow-Origin': '*', 
+            'Access-Control-Allow-Origin': '*',
 
             Accept: 'application/json',
 
-            'content-type': 'application/json'
-
+            'content-type':'application/json'    
         },
 
-        method: 'PATCH', 
+        method: 'PUT',
 
         body: JSON.stringify(reqBody)
 
+     };
+
+     fetch( endpoit, reqObj)
+     .then(rs => {return rs.json()})
+     .then(res => {
+         console.log(res);
+
+     })
+     .catch( err => {
+
+
+     })
     }
-
-    fetch(endpoint, reqObj)
-    .then(rs => {return rs.json()})
-    .then(response => {
-        console.log(response);
-
-
-})
-
-}
+        

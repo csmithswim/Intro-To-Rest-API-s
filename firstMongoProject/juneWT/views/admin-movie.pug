@@ -3,8 +3,10 @@ html
         title Admin Page
 
         style
+            include ../public/admin-movie.css
 
         script
+            include ../public/admin-movie.js
 
     body
         -const currentYear = new Date().getFullYear()
@@ -19,10 +21,10 @@ html
         h1(style= "margin-top:5%") Post A New Movie  
         form#newMovieForm
             +movieInputs            
-        button#submitMovie Add Movie To DB
+        button#submitNew Add Movie To DB
 
         h1(style="margin-top:5%") Update A Movie Document
-        form#updateForm
-            input(placeholder='Input Movie ID', name='Id')
+        form#updateMovieForm
+            input(placeholder='Enter ID', name='Id')#idInput
             +movieInputs
         button#submitUpdate Update Movie To DB
