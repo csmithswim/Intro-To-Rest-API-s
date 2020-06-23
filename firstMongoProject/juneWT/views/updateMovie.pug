@@ -1,0 +1,45 @@
+html
+    title Add Movie To Database
+
+    style.
+        body {
+            background-color: black;
+            color: white;
+            text-align: cUpdate;
+            justify-content: cUpdate;
+        }
+        #newMovieForm {
+            margin-left: 30%;
+            margin-right: 30%;
+            background-color: #333;
+            display: flex;
+            flex-direction: column;
+
+            border-radius: 10px;
+        }
+
+        input {
+            text-align: cUpdate;
+            color: white;
+            background: #222;
+            border: none;
+            font-size: larger;
+            border-radius: 10px;
+            margin-bottom: 2%;
+            margin-left: 30%;
+            margin-right: 30%;
+        }
+
+    script
+        include ../public/updatemov.js
+    -// Link to CSS & JS
+
+    body   
+        form#updateMovieForm
+            input(placeholder='Input Movie ID', name='Id')
+            input(placeholder='Update Movie Title ', name='title')
+            input(placeholder='Update Movie Poster Img Link', name='img', type='url')
+            input(placeholder='Update IMDB Link', name='imdb_link', type='url')
+            input(placeholder='Update Movie Release Year', name='release', type='number', min=1900, max=new Date().getFullYear()+1)
+            input(placeholder='Update Movie Order Quantity', type='number', min=0, name='available')
+        button#updateMovie Update Movie To DB
