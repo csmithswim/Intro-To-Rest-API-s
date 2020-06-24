@@ -1,33 +1,37 @@
-html    
-    title Movie Rentals
-
+html
+    title Movie Rentals    
+    
     style
-        include ../public/home-pug.css
-
+        include ../public/home-pug.css        
+    
     script
-        include ../public/home-pug.js
-
+        include ../public/home-pug.js    
+        
     body
-        h1= message
-
-        .allMovies 
-            each movieData in all_movies
-                if movieData.inventory.available > 0 
-                    .Movie(id=movieData._id)
-                        .displayMovie
-                            h1=movieData.title
-                            h3=movieData.release
-                            img(src=movieData.img, alt=`${movieData.title} Poster IMG`)
-                            a(href=movieData.imdb_link)=`${movieData.title} IMDB Page`
-                            button.rentMovie Rent This Movie
-                            button.deleteMovie Delete From Database
-                            button.getMovie Get More DB info
-                        .editMovie
+    h1= message        
+    
+    button#clickMe Click me        
+    
+    #allMovies
+        each movieData in all_movies
+            if movieData.inventory.available > 0
+                .Movie(id=movieData._id)
+                    .displayMovie
+                        h1=movieData.title
+                        h3=movieData.release
+                        img(src=movieData.img, alt=`${movieData.title} Poster IMG`)
+                        a(href=movieData.imdb_link)=`${movieData.title} IMDB Page`
+                    button.rentMovie Rent This Movie
+                    button.getMovie Get More DB Info
+                    .editMovie
+                        - const currentYear = new Date().getFullYear();
+                        form(onSubmit='return false')
                             input(type='text', placeholder='Title', name='title')
-                            input(type='text', placeholder='Release Year', name='release')
-                            input(type='text', placeholder='', name='')
-                            input(type='text', placeholder='', name='')
-                            input(type='text', placeholder='', name='')                            
-                        .adminBtns
-                                button.deleteMovie Delete From Database
-                                button.editMovie Edit From Database
+                            input(type='number', placeholder='Release Year', name='release')
+                            input(type='url', placeholder='Movie Poster URL', name='img')
+                            input(type='url', placeholder='IMDB Link', name='imdb_link', pattern='imdb')
+                            input(type='number', placeholder= 'Enter Movie Release Year', name='release', ,value=currentYear, min=1900, max=new Date().getFullYear()+2)
+                            button.submitEdit Submit Changes
+                    .adminBtns
+                        button.deleteMovie Delete From Database
+                        button.editMovieBtn Edit Movie Data
