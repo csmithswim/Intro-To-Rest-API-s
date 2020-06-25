@@ -1,3 +1,6 @@
+// const Movie = require('../models/Movie');  //MongoDB collection is accessible through this variable
+
+
 function clickedBtn() {
     console.log('test')
 }
@@ -135,9 +138,14 @@ function changeEditView(){
 function submitEditReq() {
  //Fetch request and data validation PATCH
  
+    
     const movieId = this.parentElement.parentElement.parentElement.id
 
     const form = this.parentElement;
+
+    // console.log(movieId)
+
+    // console.log(form)
 
     let reqBody = {};
 
@@ -153,7 +161,50 @@ function submitEditReq() {
 
     }
 
+    // if (reqBody.title.trim() === '' || idInput.value.trim().length != 50) return alert('A valid Movie Title must be provided');
+    // if (reqBody.release.trim() === '' || idInput.value.trim().length != 4) return alert('A valid Release Date must be provided');
+    // if (reqBody.img.trim() === '' || idInput.value.trim().length != 24) return alert('A valid Id must be provided');
+    // if (reqBody.imdb_link.trim() === '' || idInput.value.trim().length != 24) return alert('A valid Id must be provided');
+
+    let endpoint = location.origin + '/movie/patch/' + movieId
+    
+    const reqObj = {
+
+        headers: {
+
+            'Access-Control-Allow-Origin': '*', 
+
+            Accept: 'application/json',
+
+            'content-type': 'application/json'
+
+        },
+
+        method: 'PATCH', 
+
+        body: JSON.stringify(reqBody)
+
+    }
+
+
+    fetch(endpoint, reqObj)
+    .then(rs => {
+        
+        if (rs.status === 200) { //doc DB PATCH success, edit movie information for front end.
+
+            this.parentElement.parentElement.remove();
+
+        } else { //alert the user that the req was unsuccessful
+
+            const resMsg =  "An error occured trying to PATCH movie from DB";
+
+            alert(resMsg)
+        }
+
+    })
+
 console.log(reqBody);
+console.log(reqBody.title)
 
 }
 
