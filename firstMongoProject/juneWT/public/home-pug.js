@@ -143,6 +143,8 @@ function submitEditReq() {
 
     const form = this.parentElement;
 
+    let validationErr = [];
+
     // console.log(movieId)
 
     // console.log(form)
@@ -153,19 +155,21 @@ function submitEditReq() {
 
         let inputValue = input.value.trim();
 
-        if (inputValue != ''){
+        if (inputValue != '') reqBody[input.name] = inputValue;
 
-            reqBody[input.name] = inputValue;
-
-      }
+        if (input.validationMessage != '') validationErr.push(`${input.name}: ${input.validationMessage}`);
 
     }
 
-    // if (reqBody.title.trim() === '' || idInput.value.trim().length != 50) return alert('A valid Movie Title must be provided');
-    // if (reqBody.release.trim() === '' || idInput.value.trim().length != 4) return alert('A valid Release Date must be provided');
-    // if (reqBody.img.trim() === '' || idInput.value.trim().length != 24) return alert('A valid Id must be provided');
-    // if (reqBody.imdb_link.trim() === '' || idInput.value.trim().length != 24) return alert('A valid Id must be provided');
+    if ( !(new RegExp(/imdb/).test(form.imdb_link)) ) validationErr.push(`IMDB Link Provided Did Not Include imdb`);
 
+        if (validationErr.length > 0) {
+
+            const message = `Error/s Occured:\n\n${validationErr.join('\n')}`;
+
+            return alert(message);
+        }
+    
     let endpoint = location.origin + '/movie/patch/' + movieId
     
     const reqObj = {
@@ -190,6 +194,9 @@ function submitEditReq() {
     fetch(endpoint, reqObj)
     .then(rs => {
         
+
+     //Check if patch was successful, if it is successful switch back to original screen, if not successful alert the user. 
+
         if (rs.status === 200) { //doc DB PATCH success, edit movie information for front end.
 
             this.parentElement.parentElement.remove();
@@ -202,9 +209,11 @@ function submitEditReq() {
         }
 
     })
-
+S
 console.log(reqBody);
 console.log(reqBody.title)
-
+S
 }
 
+
+ //Check if patch was successful, if it is successful switch back to original screen, if not successful alert the user. 
