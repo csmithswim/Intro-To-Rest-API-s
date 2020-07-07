@@ -31,5 +31,5 @@ const User = new Mongoose.Schema({ //Now user will be equal to an instance of th
 })
 
 
-module.exports = mongoose.model('user', User);
+module.exports = Mongoose.model('user', User);
 
