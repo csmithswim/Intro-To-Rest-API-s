@@ -58,10 +58,7 @@ function submitNewRequest(){
 
 function updateMovieReq(){
 
-  
-
-
-    if(idInput.value.trim() === '' || idInput.value.trim().length != 24) return alert('A valid Id must be provided');
+    if (idInput.value.trim() === '' || idInput.value.trim().length != 24) return alert('A valid Id must be provided');
 
     let endpoint = location.origin + '/movie/patch/' + idInput.value;
     
@@ -75,9 +72,7 @@ function updateMovieReq(){
 
      if (temp != '' && input.name != 'id') {
 
-
         reqBody[input.name] = temp;
-
      }
                              
 }

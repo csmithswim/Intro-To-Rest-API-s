@@ -1,21 +1,20 @@
-const User = require('../models/User');
-const validator = require("validator");
+const User = require('../models/User'),
+    validator = require("validator");
 
+module.exports = async(req, res, next) => {
 
-validate = async (req, res, next) => {
+    const email = req.body.email,
+        pass = req.body.password;
+    let failedFields = [];
 
-            const email = req.body.email,
-                pass = req.body.password,
-                failedValues = [];
+    if (!validator.isEmail(email)) {
 
-            if (!validator.isEmail(email)){
-                failedValues.push({
-                    key: "email",
-                    message: "Valid Email Required"
-                })
-            } 
+        failedFields.push({
+            field: 'email',
+            msg: "Valid Email Required"
+        });
 
-            const emailExist = await User.findOne({ email: email }) != null;//expected outcome: boolean
+    };            const emailExist = await User.findOne({ email: email }) != null;//expected outcome: boolean
 
             if (emailExist === null) {
 
