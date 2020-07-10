@@ -18,7 +18,7 @@ module.exports = async(req, res, next) => {
 
             if (emailExist === null) {
 
-                failedValues.push({
+                failedFields.push({
 
                     key: "email",
                     message: "Email In Use"
@@ -28,17 +28,17 @@ module.exports = async(req, res, next) => {
             }
             
             if (!validator.isLength(pass, {min: 7, max:100}) || !validator.isAlphanumeric(pass, 'en-US')){
-                failedValues.push({
+                failedFields.push({
                     key: "password",
                     message: "Length Failed Requirements OR Used Invalid Characters"
                 })
             }
             
-            if (failedValues.length > 0) {
+            if (failedFields.length > 0) {
                 res
                 .status(400)
                 .json({
-                    validation_error: failedValues
+                    validation_error: failedFields
                 })
 
             }
