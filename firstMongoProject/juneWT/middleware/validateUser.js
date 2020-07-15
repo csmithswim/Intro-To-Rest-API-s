@@ -43,6 +43,12 @@ module.exports = async(req, res, next) => {
 
             }
             
-            else {next()}
+            else {            
+            
+            req.id = emailExist._id;           
+            
+            
+            
+            next()}
 }
 
