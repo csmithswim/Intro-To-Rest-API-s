@@ -18,14 +18,19 @@ const User = new Mongoose.Schema({ //Now user will be equal to an instance of th
 
     adminProp: {
         adminLevel: {
-            type: Number,
+            type: [Number, String],
             default: 0
         },
         isAdmin: {
             type: Boolean,
             default: false
         }
+    },
 
+    favMovies: {
+        type: [Mongoose.Schema.Types.ObjectId],
+        ref: 'movies',
+        default: []
     }
 
 })
