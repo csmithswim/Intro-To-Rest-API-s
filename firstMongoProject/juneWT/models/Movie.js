@@ -50,9 +50,12 @@ const Movie = new mongoose.Schema({
         type: Object,
 
         default: {
-
                 available: 1, //giving it a type Number is for validation when you give a post request.
-                rented: 0
+                rented: {
+                    type: [mongoose.Schema.Types.ObjectId],
+                    ref: 'users',
+                    default: []
+                }
         }
     }
 })
