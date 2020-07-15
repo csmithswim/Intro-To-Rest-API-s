@@ -5,15 +5,27 @@ const validator = require("validator");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const validateUser = require('../middleware/validateUser');
-const authUser = require('../middleware/authUser');
 const secret = process.env.JWT_SECRET;
+
+const validateUser = require('../middleware/validateUser');
+const loginUser = require('../middleware/loginUser');
+const userAuth = require('../middleware/userAuth');
 
 //Post route for users
 //localhost: 3001/user
 //@desc post/make a new user and store in users collection
 //@patch (server path)/user/post
 //@access admin level 
+
+router.get(
+    '/testAuth',
+    userAuth,
+    (req,res) => {
+
+        res.send('success you are logged in')
+    }
+)
+
 
 router.post(
     "/", 
@@ -57,15 +69,15 @@ router.post(
 
 router.put(
     "/", 
-    validateUser,    
+    loginUser,    
     async (req, res) => {        
 
-        const token = jwt.sign({id: req.id}, secret);
 
-        res.json(token);
+        console.log(req.id)
+        const token = jwt.sign({id: req.id}, secret, {expiresIn: 20});
+
+        res.json({token});
     }
 )
-
-
 
 module.exports = router;
