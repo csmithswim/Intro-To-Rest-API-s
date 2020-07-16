@@ -4,15 +4,32 @@ module.exports = async (req, res, next) => {
 
     const {JWT_SECRET: jwtKey, HEAD_AUTH_KEY: headerKey} = process.env;
 
-    console.log(jwtKey, headerKey);
-   
     const userToken = req.headers[headerKey];
 
-    const decode = jwt.verify(userToken, jwtKey)
+    try {
 
-    console.log(decode);
+        const decodedData = jwt.verify(userToken, jwtKey);
 
-    next()
+        if (decodedData.id === undefined) { 
+
+            throw new Error('Id was not defined in the payload');
+        }
+
+        req.userId = decodedData.id;
+
+        next()
+
+    } catch (err) {
+
+        const errMsg = err.message || err;
+
+        console.log(`\nError in UserAuth: ${errMsg}\n`);
+
+        return res.status(401).json({error: 'Not Authorized'})
+    }
+
+    // console.log(decode);
+
 
 }
 
