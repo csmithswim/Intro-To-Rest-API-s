@@ -11,6 +11,7 @@ module.exports = async (req, res, next) => {
         const decodedData = jwt.verify(userToken, jwtKey);
 
         if (decodedData.id === undefined) { 
+            
 
             throw new Error('Id was not defined in the payload');
         }
