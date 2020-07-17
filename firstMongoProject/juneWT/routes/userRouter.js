@@ -29,19 +29,14 @@ router.get(
 
 router.post(
     "/", 
-    // validateUser
+    validateUser,
     
     async (req, res) => {
 
         //not allow a user to bypass admin level and isAdmin
 
         //encrypt password for safe DB storage
-        const salt =  await bcrypt.genSalt(7);
-        
-        const hashedPass = await bcrypt.hash(req.body.password, salt);
-        
-        req.body.password = hashedPass;
-
+      
         req.body.password = await bcrypt.hash(req.body.password, 7);
 
         try {
@@ -70,13 +65,13 @@ router.post(
 router.put(
     "/", 
     loginUser,    
-    async (req, res) => {        
-
+    (req, res) => {        
 
         console.log(req.id)
-        const token = jwt.sign({id: req.id}, secret, {expiresIn: 20});
+        
+        const token = jwt.sign({id: req.id}, secret, {expiresIn: '1h'});
 
-        res.json({token});
+        return res.json({token});
     }
 )
 
