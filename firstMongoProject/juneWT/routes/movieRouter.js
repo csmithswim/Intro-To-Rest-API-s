@@ -6,6 +6,26 @@ const Movie = require('../models/Movie');  //MongoDB collection is accessible th
 
 const findMovie = require('../middleware/findMovie');
 
+const adminAuth = require('../middleware/adminAuth');
+
+
+router.get('/adminTest', adminAuth, async (req, res) => {
+    try {
+
+        res.json({message: 'Your\'e an Admin.'})
+
+    } catch (err) {
+
+        const errMsg = err.message || err;
+
+        console.log(`Error In Movie Router Test, \n Error: ${errMsg}`)
+
+            res.status(500).json({error: errMsg})
+        
+    }
+
+})
+
 
 router.get('/all', async (req, res) => { //be sure to write movie before /all in postman 
 
@@ -45,7 +65,13 @@ router.get('/all', async (req, res) => { //be sure to write movie before /all in
     }) 
 
 //delete request
-router.delete('/delete/:movieId', findMovie, async (req, res) => { //We use async so we can use the await keyword and allow a line to be run sync.
+router.delete('/delete/:movieId',
+
+findMovie, 
+
+//adminAuth,
+
+async (req, res) => { //We use async so we can use the await keyword and allow a line to be run sync.
 
     console.log(req.params)
 
