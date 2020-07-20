@@ -7,7 +7,9 @@ const User = require('../models/User'); //Using our Users model
 // Simply set the request property 'adminId' to the admin's id and call next()
 // test this out by making an admin user and a non admin user. Right now we dont have a way to promote a user to an admin but we did not include data sanitation for the adminProps so you would be able to set a user to admin via /user POST. Another way to set a user to an admin is by modifying the data directly in Atlas.
 
-module.exports = async(req, res, next, adminLevel) => { //This is another way of defining our class Method to allow us to export it globally and use with our application.
+module.exports = async(req, res, next) => { //This is another way of defining our class Method to allow us to export it globally and use with our application.
+
+    console.log('test 1');
 
     const { JWT_SECRET: jwtKey, HEAD_AUTH_KEY: headerKey} = process.env; //Here we use object destructuring to grab the values of different keys that we have stores in our .env file.
 
@@ -18,27 +20,38 @@ module.exports = async(req, res, next, adminLevel) => { //This is another way of
         const decodedData = jwt.verify(userToken, jwtKey);
         
         if (decodedData.id === undefined) { //Our conditional to test if the admin's ID is undefined and if it is, throw a new Error saying it is not defined.
-            throw new Error('Id was not defined in the payload')
+            throw new Error('Id was not defined in the payload') 
         }
 
-        const admin = await User.findOne(
+        if (typeof decodedData.id === "string" && decodedData.id.length != 24){ //Testing to make sure its a string and the right length
+
+            throw new Error('Id is not a string or the right length')
+        }
+
+        const admin = await User.findOne( //Using mongoose's findOne method to find the specific admin object and enclosed id and define to const admin.
             {_id: decodedData.id}
         );
 
-        if (admin === null) { throw new Error('User id is invalid');}
-        
+        if (admin === null) { throw new Error('User id is invalid');} //conditional to throw an error if admin is null.
 
-        const {_id: id, email: email, 'adminProps.isAdmin': isAdmin} = admin;
+        if (admin.adminProp.isAdmin != true){
 
-        const info = {
+            throw new Error('User is not an admin');
+        }       
+
+        const {_id: id, email: email, adminProp} = admin; //object destructuring to define admin to have key value pairs of what we have in our database.
+
+        const info = { //defining the info object
             id: id,
             email: email,
-            isAdmin: isAdmin,
+            isAdmin: adminProp.isAdmin
         }
 
         console.log(info)
 
-    }  catch (err) {
+        next();
+
+    }  catch (err) { //throwing an error if someone tries to login that is not an admin
 
         const errMsg = err.message || err;
 
@@ -47,14 +60,17 @@ module.exports = async(req, res, next, adminLevel) => { //This is another way of
         return res.status(401).json({error: 'Not Authorized'})        
     }
 
+    console.log('test 2');
+
+
 }
 
 
-function project () {
+// function project () { 
 
-    User.findOne( { } );
+//     User.findOne( { } );
 
-}
+// }
 
 
 
