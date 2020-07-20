@@ -10,6 +10,7 @@ const secret = process.env.JWT_SECRET;
 const validateUser = require('../middleware/validateUser');
 const loginUser = require('../middleware/loginUser');
 const userAuth = require('../middleware/userAuth');
+const adminAuth = require('../middleware/adminAuth');
 
 //Post route for users
 //localhost: 3001/user
@@ -26,6 +27,16 @@ router.get(
     }
 )
 
+//Our test route, node scans router files top to bottom and avoid using duplicate route names
+
+router.get( 
+    '/testAdminAuth',
+    adminAuth,
+    (req , res) => {
+
+        res.send('success you are logged in')
+    }
+)
 
 router.post(
     "/", 
@@ -74,5 +85,7 @@ router.put(
         return res.json({token});
     }
 )
+
+
 
 module.exports = router;
