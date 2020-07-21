@@ -86,6 +86,10 @@ router.put(
     }
 )
 
-
+//Patch all movies to now have an inventory that matches the model
 
 module.exports = router;
+
+//movie renting route
+
+//movie 
