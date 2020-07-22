@@ -27,7 +27,7 @@ const User = new Mongoose.Schema({ //Now user will be equal to an instance of th
         }
     },
 
-    favMovies: {
+    rentedMovies : {
         type: [Mongoose.Schema.Types.ObjectId],
         ref: 'movies',
         default: []
