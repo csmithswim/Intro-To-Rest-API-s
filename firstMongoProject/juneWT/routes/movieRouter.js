@@ -8,6 +8,13 @@ const findMovie = require('../middleware/findMovie');
 
 const adminAuth = require('../middleware/adminAuth');
 
+//routes to make
+
+
+
+//add/delete movie inventory
+
+//TODO make movie routes admin/user only include adminAuth/user
 
 router.get('/adminTest', adminAuth, async (req, res) => {
     try {
@@ -104,42 +111,42 @@ async (req, res) => { //We use async so we can use the await keyword and allow a
 })
 
 //request patch
-router.patch('/patch/:movieId', findMovie, async (req, res) => {
+// router.patch('/patch/:movieId', findMovie, async (req, res) => {
 
-    const id = req.params.movieId;
+//     const id = req.params.movieId;
 
-    const newVersion = req.foundMovie.__v + 1; //the version of the document should only be handled by the server/mongoDB
+//     const newVersion = req.foundMovie.__v + 1; //the version of the document should only be handled by the server/mongoDB
 
-    req.body.__v = newVersion; //this is an interger
+//     req.body.__v = newVersion; //this is an interger
 
-    try 
+//     try 
     
-    {
-        await Movie.update({_id: id}, req.body);
+//     {
+//         await Movie.update({_id: id}, req.body);
 
-    const updateDocument = await Movie.findById(id);
+//     const updateDocument = await Movie.findById(id);
 
-    res.status(200).json({
-        status: 200, 
+//     res.status(200).json({
+//         status: 200, 
 
-        new_document: updateDocument,
-        old_document: req.foundMovie
+//         new_document: updateDocument,
+//         old_document: req.foundMovie
 
-    })
+//     })
 
-    }   catch (err) {
+//     }   catch (err) {
 
-        console.log('Error in HomeRouter: '+ err.message)
+//         console.log('Error in HomeRouter: '+ err.message)
 
-        res.status(500).json({
-            status: 500,
-            message: err.message
-        })
-    }
-})
+//         res.status(500).json({
+//             status: 500,
+//             message: err.message
+//         })
+//     }
+// })
 
 //request movie by DB id
-router.get('/:movieId', findMovie, (req, res) => {
+router.get('/getmovie/:movieId', findMovie, (req, res) => {
 
 res.status(200).json({
   status:200, 
@@ -180,6 +187,35 @@ console.log(req.body)
 
 
 })
+
+router.patch(
+    '/moviepatch1', 
+    adminAuth, 
+    async (req, res) => {
+
+        try {
+
+            const report = await Movie.updateMany(
+                {},
+            {
+                inventory: {
+                    available: 1, 
+                    rented: []
+                }
+            }
+        )
+        res.json({
+            allDoc: await Movie.find({}),
+            report: report,            
+            message: 'successful patch'})
+            
+        } catch (err) {
+            res.status(500).json({error: err.message || err})
+        }
+    }
+)
+
+
 
 module.exports = router;
 
