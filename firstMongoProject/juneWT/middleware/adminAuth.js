@@ -28,26 +28,16 @@ module.exports = async(req, res, next) => { //This is another way of defining ou
             throw new Error('Id is not a string or the right length')
         }
 
-        const admin = await User.findOne( //Using mongoose's findOne method to find the specific admin object and enclosed id and define to const admin.
-            {_id: decodedData.id}
-        );
 
-        if (admin === null) { throw new Error('User id is invalid');} //conditional to throw an error if admin is null.
+        const query = {_id: decodedData.id, 'adminProp.isAdmin': true},
+            projection = {password: 0, __v: 0}
 
-        if (admin.adminProp.isAdmin != true){
+        const admin = await User.findOne( 
+            query, projection
+       );     
+        
+       if (admin === null) { throw new Error('User id is not an Admin');} //conditional to throw an error if admin is null.
 
-            throw new Error('User is not an admin');
-        }       
-
-        const {_id: id, email: email, adminProp} = admin; //object destructuring to define admin to have key value pairs of what we have in our database.
-
-        const info = { //defining the info object
-            id: id,
-            email: email,
-            isAdmin: adminProp.isAdmin
-        }
-
-        console.log(info)
 
         next();
 
@@ -78,6 +68,24 @@ module.exports = async(req, res, next) => { //This is another way of defining ou
 
 
 
+
+
+
+
+
+//excess code
+
+        // if (admin.adminProp.isAdmin != true){
+
+        //     throw new Error('User is not an admin');
+        // }       
+        // const {_id: id, email: email, adminProp} = admin; //object destructuring to define admin to have key value pairs of what we have in our database.
+
+        // const info = { //defining the info object
+        //     id: id,
+        //     email: email,
+        //     isAdmin: adminProp.isAdmin
+        // }
 
 
 
