@@ -7,14 +7,11 @@ const Movie = require('../models/Movie');  //MongoDB collection is accessible th
 const findMovie = require('../middleware/findMovie');
 
 const adminAuth = require('../middleware/adminAuth');
+const newError = require('../utils/newError');
 
-//routes to make
+// Create a return route to accompany the rent route we created together.
+// Create a route to decrease a movies available number.
 
-
-
-//add/delete movie inventory
-
-//TODO make movie routes admin/user only include adminAuth/user
 
 router.get('/adminTest', adminAuth, async (req, res) => {
     try {
@@ -33,6 +30,65 @@ router.get('/adminTest', adminAuth, async (req, res) => {
 
 })
 
+router.patch(
+    '/moviepatch1', 
+    adminAuth, 
+    async (req, res) => {
+
+        try {
+
+            const report = await Movie.updateMany(
+                {},
+            {
+                inventory: {
+                    available: 1, 
+                    rented: []
+                }
+            }
+        )
+        res.json({
+            allDoc: await Movie.find({}),
+            report: report,            
+            message: 'successful patch'})
+            
+        } catch (err) {
+            res.status(500).json({error: err.message || err})
+        }
+    }
+)
+
+router.patch(
+    '/addinven',
+    adminAuth,
+    async (req, res) => {
+
+        try {
+
+            // if (req.admin.adminProp.adminLevel <= 1) throw newError('Not Authorized', 401);
+
+            //TODO
+            //validate 'movieId' (check length) and 'inc' (check admin priv.) in req.
+
+            const updatedMovie = await Movie.findByIdAndUpdate(
+            req.body.movieId,
+            {$inc: {'inventory.available': req.body.inc}},
+            {new: 1}            
+            )
+
+            res.json(updatedMovie)
+
+
+        } catch (err) {
+
+            const errMsg = err.message || err;
+            const errCode = err.code || 500;
+
+            res.status(errCode).json({
+                error: errMsg
+            })
+        }
+    }
+)
 
 router.get('/all', async (req, res) => { //be sure to write movie before /all in postman 
 
@@ -76,7 +132,7 @@ router.delete('/delete/:movieId',
 
 findMovie, 
 
-//adminAuth,
+adminAuth,
 
 async (req, res) => { //We use async so we can use the await keyword and allow a line to be run sync.
 
@@ -110,7 +166,8 @@ async (req, res) => { //We use async so we can use the await keyword and allow a
     })
 })
 
-//request patch
+//request patch by movie ID
+
 // router.patch('/patch/:movieId', findMovie, async (req, res) => {
 
 //     const id = req.params.movieId;
@@ -187,35 +244,6 @@ console.log(req.body)
 
 
 })
-
-router.patch(
-    '/moviepatch1', 
-    adminAuth, 
-    async (req, res) => {
-
-        try {
-
-            const report = await Movie.updateMany(
-                {},
-            {
-                inventory: {
-                    available: 1, 
-                    rented: []
-                }
-            }
-        )
-        res.json({
-            allDoc: await Movie.find({}),
-            report: report,            
-            message: 'successful patch'})
-            
-        } catch (err) {
-            res.status(500).json({error: err.message || err})
-        }
-    }
-)
-
-
 
 module.exports = router;
 
