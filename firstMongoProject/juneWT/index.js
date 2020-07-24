@@ -10,7 +10,7 @@ const express = require('express'),
 
     port = process.env.PORT || 3001,
 
-    deprecatedObj = { useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true},
+    deprecatedObj = { useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true, useFindAndModify: false},
     
      connectionURI = process.env.MONGO;
 
