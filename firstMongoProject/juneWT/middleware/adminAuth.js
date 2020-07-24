@@ -9,7 +9,7 @@ const User = require('../models/User'); //Using our Users model
 
 module.exports = async(req, res, next) => { //This is another way of defining our class Method to allow us to export it globally and use with our application.
 
-    console.log('test 1');
+    // console.log('test 1');
 
     const { JWT_SECRET: jwtKey, HEAD_AUTH_KEY: headerKey} = process.env; //Here we use object destructuring to grab the values of different keys that we have stores in our .env file.
 
@@ -38,7 +38,7 @@ module.exports = async(req, res, next) => { //This is another way of defining ou
         
        if (admin === null) { throw new Error('User id is not an Admin');} //conditional to throw an error if admin is null.
 
-
+            req.admin = admin;
         next();
 
     }  catch (err) { //throwing an error if someone tries to login that is not an admin
@@ -50,7 +50,7 @@ module.exports = async(req, res, next) => { //This is another way of defining ou
         return res.status(401).json({error: 'Not Authorized'})        
     }
 
-    console.log('test 2');
+    // console.log('test 2');
 
 
 }
