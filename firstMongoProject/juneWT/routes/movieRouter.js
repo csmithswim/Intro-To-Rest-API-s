@@ -9,8 +9,21 @@ const findMovie = require('../middleware/findMovie');
 const adminAuth = require('../middleware/adminAuth');
 const newError = require('../utils/newError');
 
-// Create a return route to accompany the rent route we created together.
 // Create a route to decrease a movies available number.
+
+
+
+
+
+
+//dont check if inventory is gt 1
+//pull, using positive 1
+
+
+
+
+
+
 
 
 router.get('/adminTest', adminAuth, async (req, res) => {
@@ -29,6 +42,73 @@ router.get('/adminTest', adminAuth, async (req, res) => {
     }
 
 })
+
+router.patch(
+    '/updateinv', 
+    adminAuth,
+    async (req, res) => {
+
+        const { movieId, inc, isIncrease = true } = req.body;
+
+        const adminLevel = req.admin.adminProp.adminLevel;
+
+        try {
+
+            //movieId validation
+            if (typeof movieId !== 'string' || movieId.length != 24) throw newError
+            ('The Movie\'s Id Is Invalid', 400);
+
+            if (typeof inc !== 'number' || inc < 0) throw newError('Increment Value Invalid', 400);
+           
+            let limit;
+            
+            switch (adminLevel) {
+                case 1:
+                    limit=1
+                    break;
+                case 2:
+                    limit=10
+                    break;
+                case 3:
+                limit=100
+                    break;
+            }
+
+            if (inc > limit) {
+
+                throw newError( `Not Authorized To Increase By {inc}`, 401);
+            }
+ 
+            const increment = isIncrease === true ? inc : -inc;
+
+            const found = await Movie.findById(movieId);
+
+            if (found === null) throw newError('Movie with that id does not exist', 404);
+
+            if (found.inventory.available + increment < 0) throw newError('Negative numbers are not allowed in movies inventory', 400);
+
+            const updatedMovie = await Movie.findOneAndUpdate( 
+                {_id: movieId},
+                 {$inc: {'inventory.available': increment}},
+                 {new: 1})
+
+
+        res.json({
+            message: "Successful Inventory Update", 
+            movie: updatedMovie
+        })
+     
+        } catch (err) {
+
+            const {message = err, code = 500} = err;
+
+            res.status(code).json({
+                error: message
+            })
+        }
+
+    }
+)
 
 router.patch(
     '/moviepatch1', 
@@ -57,6 +137,34 @@ router.patch(
     }
 )
 
+router.patch(
+    '/dcrinven',
+    adminAuth,
+    async (req, res) => {
+
+        try {
+            //if (req.admin.adminProp.adminLevel <= 1) throw newError('Not Authorized', 401); //Conditional to test if it is an Admin
+            const updatedMovie = await Movie.findByIdAndUpdate(
+                        req.body.movieId,
+                        {$inc: {'inventory.available': req.body.inc}},
+                        {new: 1}            
+                        )
+            
+                        res.json(updatedMovie)
+            
+            
+                    } catch (err) {
+            
+                        const errMsg = err.message || err;
+                        const errCode = err.code || 500;
+            
+                        res.status(errCode).json({
+                            error: errMsg
+                        })
+                    }
+                }
+        
+)
 router.patch(
     '/addinven',
     adminAuth,
