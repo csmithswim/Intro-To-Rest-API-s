@@ -7,16 +7,11 @@ const adminAuth = require('../middleware/adminAuth');
 
 //By default it is presumed that the views folder will have the pug files.
 
-router.get('/', (req, res) => {  //A test request
 
-    //Expected query properties: 'msg' and 'title' using object destructuring
-    const {msg, title} = req.query;
+router.get('/login', (req, res) => {
 
-    console.log(msg, title);
+    res.render('login')
 
-    res.render('test', {message: msg || 'asdf', 
-     titleVar: title || 'title'})
-    
 })
 
 router.get('/movierental/static', (req, res) =>  {
@@ -26,7 +21,7 @@ router.get('/movierental/static', (req, res) =>  {
     res.sendFile(fileLoc)
 })
 
-router.get('/mrental', async (req, res) => {
+router.get('/', async (req, res) => {
 
     const allMovies = await Movie.find({ 'inventory.available': {$gte: 1}} );
 
