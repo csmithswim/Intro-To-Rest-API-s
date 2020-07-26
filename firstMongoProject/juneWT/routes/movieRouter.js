@@ -9,20 +9,9 @@ const findMovie = require('../middleware/findMovie');
 const adminAuth = require('../middleware/adminAuth');
 const newError = require('../utils/newError');
 
-// Create a route to decrease a movies available number.
 
 
-
-
-
-
-//dont check if inventory is gt 1
-//pull, using positive 1
-
-
-
-
-
+//movie renting & returning 
 
 
 
