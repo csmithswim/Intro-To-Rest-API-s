@@ -3,6 +3,8 @@ const router = express.Router();
 const Movie = require('../models/Movie');
 const Candy = require('../models/Candy');
 const adminAuth = require('../middleware/adminAuth');
+const extractToken = require('../middleware/extractToken');
+const User = require('../models/User');
 
 
 //By default it is presumed that the views folder will have the pug files.
@@ -21,13 +23,16 @@ router.get('/movierental/static', (req, res) =>  {
     res.sendFile(fileLoc)
 })
 
-router.get('/', async (req, res) => {
+router.get('/', extractToken, async (req, res) => {
+
+    const loggedIn = req.authKey != undefined;
+    const isAdmin = await User.find({})
 
     const allMovies = await Movie.find({ 'inventory.available': {$gte: 1}} );
 
         clientMsg = 'Number of Movies: ' + allMovies.length;
 
-    res.render('home', {all_movies: allMovies, message: clientMsg})
+    res.render('home', {all_movies: allMovies, message: clientMsg, isLoggedIn: loggedIn})
 })
 
 router.get('/candy', async (req, res) => {

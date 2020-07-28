@@ -13,7 +13,7 @@ module.exports = async(req, res, next) => { //This is another way of defining ou
 
     const { JWT_SECRET: jwtKey, HEAD_AUTH_KEY: headerKey} = process.env; //Here we use object destructuring to grab the values of different keys that we have stores in our .env file.
 
-    const userToken = req.headers[headerKey]; //Definition of userToken, it is stored in our .env file, we stored it there from when we made a get request to our user/testAuth route and used our JWT.
+    const userToken = req.authKey; //Definition of userToken, it is stored in our .env file, we stored it there from when we made a get request to our user/testAuth route and used our JWT.
 
     try { //our try catch block to verify that the userToken variable and jwtKey match in our database and then assign the return of that method to the const variable decodedData.
 

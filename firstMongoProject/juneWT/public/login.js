@@ -38,7 +38,9 @@ window.onload = () => {
 
             } else {
 
-                localStorage.setItem('loginToken', token)
+                document.cookie = `token=${token}`;
+
+                // localStorage.setItem('loginToken', token)
 
                 location = location.origin;
 

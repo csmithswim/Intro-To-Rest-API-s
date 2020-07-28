@@ -10,6 +10,8 @@ function clickedDltBtn() {
 }
 window.onload = () => {
 
+    console.log(document.cookie);
+
     setEventListeners()
 
     reqSingleMovieData.onclick = clickedBtn;
@@ -21,7 +23,7 @@ window.onload = () => {
 
     for( const div of editDivs) {div.style.display = 'none';
 
-    console.log
+   
 
 };
 
@@ -58,17 +60,19 @@ function setEventListeners() {
 
 function loginUser() {
 
-    location = location.origin+'login';
+    location = location.origin+'/login';
+    // console.log('test')
+
 }
 
 
 function logoutUser() {
 
-   const token = localStorage.getItem('loginToken');
-
-   if ( token !== null ) {
-        localStorage.removeItem('loginToken');
-        alert('Logged Out')
+   const token = document.cookie.indexOf('token')
+   
+    if ( token !== -1 ) {
+    document.cookie = "token=; expires='Thu, 01, Jan 1970 00:00:00 UTC'; path=/;";;
+           alert('Logged Out')
     } else {
         alert('You are not logged in.')
     }
