@@ -6,16 +6,16 @@ const Movie = require('../models/Movie');  //MongoDB collection is accessible th
 
 const findMovie = require('../middleware/findMovie');
 
+const extractToken = require('../middleware/extractToken');
+
 const adminAuth = require('../middleware/adminAuth');
 const newError = require('../utils/newError');
 
-
-
 //movie renting & returning 
 
-
-
-router.get('/adminTest', adminAuth, async (req, res) => {
+router.get('/adminTest', 
+adminAuth, 
+async (req, res) => {
     try {
 
         res.json({message: 'Your\'e an Admin.'})
@@ -34,6 +34,7 @@ router.get('/adminTest', adminAuth, async (req, res) => {
 
 router.patch(
     '/updateinv', 
+    extractToken,
     adminAuth,
     async (req, res) => {
 
@@ -226,11 +227,9 @@ router.get('/all', async (req, res) => { //be sure to write movie before /all in
 
 //delete request
 router.delete('/delete/:movieId',
-
 findMovie, 
-
+extractToken,
 adminAuth,
-
 async (req, res) => { //We use async so we can use the await keyword and allow a line to be run sync.
 
     console.log(req.params)
@@ -262,6 +261,54 @@ async (req, res) => { //We use async so we can use the await keyword and allow a
         delete_movie: req.found
     })
 })
+
+
+router.get('/getmovie/:movieId', findMovie, (req, res) => {
+
+res.status(200).json({
+  status:200, 
+  message: 'A movie was found', 
+
+  movie: req.foundMovie
+})
+
+})
+
+//create a new movie document in DB
+router.post('/post', 
+extractToken,
+adminAuth,
+async (req, res) => {
+
+    try {
+        const newMovie = await Movie.create(req.body);
+
+        await newMovie.save()
+
+        res.json({
+
+            status: 201,
+            new_movie: newMovie,
+            message: 'New Movie Added To the Database'
+        })
+        
+    } catch (err) {
+
+        console.log(err.message);
+        
+        res.json({
+            message: 'An Error Occured During Post Request',
+            error: err.message,
+            status: 500
+        })
+    }
+
+console.log(req.body)
+
+
+})
+
+module.exports = router;
 
 //request patch by movie ID
 
@@ -300,47 +347,3 @@ async (req, res) => { //We use async so we can use the await keyword and allow a
 // })
 
 //request movie by DB id
-router.get('/getmovie/:movieId', findMovie, (req, res) => {
-
-res.status(200).json({
-  status:200, 
-  message: 'A movie was found', 
-
-  movie: req.foundMovie
-})
-
-})
-
-//create a new movie document in DB
-router.post('/post', async (req, res) => {
-
-    try {
-        const newMovie = await Movie.create(req.body);
-
-        await newMovie.save()
-
-        res.json({
-
-            status: 201,
-            new_movie: newMovie,
-            message: 'New Movie Added To the Database'
-        })
-        
-    } catch (err) {
-
-        console.log(err.message);
-        
-        res.json({
-            message: 'An Error Occured During Post Request',
-            error: err.message,
-            status: 500
-        })
-    }
-
-console.log(req.body)
-
-
-})
-
-module.exports = router;
-
