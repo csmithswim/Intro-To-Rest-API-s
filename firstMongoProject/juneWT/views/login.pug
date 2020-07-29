@@ -1,15 +1,18 @@
 html
     head
+        style
+            include ../public/login.css
 
-        script  
+        script
             include ../public/login.js
 
-        title Login       
+        title Login
         body
-            h1 Login
-            label Email
-            input#email(minLength =5 type='email' placeholder='Enter Email') 
-            label Password
-            input#password(minLength=7 type='password' placeholder='Enter Password') 
-            button#submitLogin Submit   
-            
+            #container
+                h1#loginHead Login
+                #form
+                    label.lables Email
+                    input#email(minLength=5 type='email' placeholder='Enter Email')
+                    label.lables Password
+                    input#password(minLength=7 type='password' placeholder='Enter Password')
+                button#submitLogin Login
