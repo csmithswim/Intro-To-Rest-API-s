@@ -52,11 +52,31 @@ function setEventListeners() {
 
     for( const button of editSubmitButtons) {button.onclick = submitEditReq};  
 
-  document.getElementById('loginBtn').onclick = loginUser;
+    const logoutBtn = document.getElementById('logoutBtn');
+    const loginBtn = document.getElementById('loginBtn');
+    const adminBtn = document.getElementById('adminPage');
 
-  document.getElementById('logoutBtn').onclick = logoutUser;
+    if (loginBtn) {
+        
+        loginBtn.onclick = loginUser;
+    } 
+
+    if (logoutBtn) {
+
+        logoutBtn.onclick = logoutUser;
+    } 
+
+    if (adminBtn) {
+
+        adminBtn.onclick = redirectAdmin;
+        
+    }
+
+
 
 }
+
+
 
 function loginUser() {
 
@@ -64,18 +84,21 @@ function loginUser() {
     // console.log('test')
 
 }
-
-
 function logoutUser() {
 
    const token = document.cookie.indexOf('token')
    
     if ( token !== -1 ) {
-    document.cookie = "token=; expires='Thu, 01, Jan 1970 00:00:00 UTC'; path=/;";;
+    document.cookie = "token=; expires='Thu, 01, Jan 1970 00:00:00 UTC'; path=/;";
            alert('Logged Out')
+           location.reload();
     } else {
         alert('You are not logged in.')
     }
+}
+
+function redirectAdmin() {
+location = location.origin+'/admin';
 }
 
 function reqSingleMovieData () {
@@ -236,10 +259,10 @@ function submitEditReq() {
         }
 
     })
-S
+
 console.log(reqBody);
 console.log(reqBody.title)
-S
+
 }
 
 
