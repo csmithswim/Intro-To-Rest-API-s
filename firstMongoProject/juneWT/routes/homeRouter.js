@@ -30,7 +30,7 @@ async (req, res) => {
 
     const loggedIn = req.authKey != undefined;
 
-    const allMovies = await Movie.find({ 'inventory.available': {$gte: 1}} );
+    const allMovies = await Movie.find({ 'inventory.available': {$gte: 5}} );
 
     const isAdmin = req.isAdmin || false;
 
@@ -53,6 +53,8 @@ router.get('/candy', async (req, res) => {
 })
 
 router.get('/admin',
+
+extractToken,
 
 adminAuth, (req, res) => {
 
