@@ -54,7 +54,7 @@ function setEventListeners() {
 
     const logoutBtn = document.getElementById('logoutBtn');
     const loginBtn = document.getElementById('loginBtn');
-    const adminBtn = document.getElementById('adminPage');
+    const adminBtn = document.getElementById('adminBtn');
 
     if (loginBtn) {
         
@@ -98,7 +98,9 @@ function logoutUser() {
 }
 
 function redirectAdmin() {
+
 location = location.origin+'/admin';
+
 }
 
 function reqSingleMovieData () {
@@ -211,7 +213,9 @@ function submitEditReq() {
 
     }
 
-    if ( !(new RegExp(/imdb/).test(form.imdb_link)) ) validationErr.push(`IMDB Link Provided Did Not Include imdb`);
+    const imdbRegEx = /imdb/g;
+
+    if ( !(imdbRegEx.test(form.imdb_link)) ) validationErr.push(`IMDB Link Provided Did Not Include imdb`);
 
         if (validationErr.length > 0) {
 
