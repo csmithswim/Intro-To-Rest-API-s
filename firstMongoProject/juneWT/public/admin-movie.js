@@ -20,9 +20,9 @@ function submitNewRequest(){
          
         }
 
-        reqBody.inventory = {available: reqBody.available, rented: 0};
+        reqBody.release = parseInt(reqBody.release)
 
-
+        reqBody.inventory = {available: parseInt(reqBody.available), rented: []};
 
     //make xhr
 
