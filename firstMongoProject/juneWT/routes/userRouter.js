@@ -7,10 +7,12 @@ const jwt = require("jsonwebtoken");
 const Movie = require("../models/Movie");
 const secret = process.env.JWT_SECRET;
 
+
 const validateUser = require('../middleware/validateUser');
 const loginUser = require('../middleware/loginUser');
 const userAuth = require('../middleware/userAuth');
 const adminAuth = require('../middleware/adminAuth');
+const extractToken = require('../middleware/extractToken');
 
 const newError = require('../utils/newError');
 
@@ -21,7 +23,8 @@ const newError = require('../utils/newError');
 //movie renting & returning 
 router.patch(
     '/rent_or_return',
-    userAuth,
+    extractToken,
+    userAuth,    
     async (req, res) => {
         
         const {movieId, isRenting = true} = req.body;
@@ -50,11 +53,19 @@ router.patch(
                 throw newError('Movie Not Found or Movie Unavailable', 404);
             }
             
-            //ToDo
-            //if the user is renting, make sure they dont already have that movie rented
-			//if the user is returning, make sure they are currently renting the movie
-            
+            const currentlyRenting = req.user.rentedMovies;
 
+            if (
+                currentlyRenting.includes(movieId) && isRenting
+                ||
+                !currentlyRenting.includes(movieId) && !isRenting
+            ) 
+            {
+                const operation = isRenting ? 'renting' : 'returning';
+                console.log(`User did something bad userId: ${req.user._id}`);
+                throw newError(`Can not preform the ${operation} operation twice`, 409);
+            }       
+            
             //modify the user doc
             const newUser = await User.findByIdAndUpdate(
                 req.user._id,
