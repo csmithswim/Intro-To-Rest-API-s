@@ -4,7 +4,7 @@ const User = require('../models/User');
 
 module.exports = async (req, res, next) => {
 
-    const {JWT_SECRET: jwtKey, HEAD_AUTH_KEY: headerKey} = process.env;
+    const {JWT_SECRET: jwtKey} = process.env;
 
     const userToken = req.authKey;
 
