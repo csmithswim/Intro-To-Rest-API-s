@@ -10,7 +10,6 @@ const extractToken = require('../middleware/extractToken');
 
 const adminAuth = require('../middleware/adminAuth');
 const newError = require('../utils/newError');
-
 //movie renting & returning 
 
 router.get('/adminTest', 
@@ -26,12 +25,10 @@ async (req, res) => {
 
         console.log(`Error In Movie Router Test, \n Error: ${errMsg}`)
 
-            res.status(500).json({error: errMsg})
-        
+            res.status(500).json({error: errMsg})        
     }
 
 })
-
 router.patch(
     '/updateinv', 
     extractToken,
