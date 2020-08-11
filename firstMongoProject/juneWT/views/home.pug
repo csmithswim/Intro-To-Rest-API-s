@@ -28,8 +28,6 @@ html
                             h3=movieData.release
                             img(src=movieData.img, alt=`${movieData.title} Poster IMG`)
                             a(href=movieData.imdb_link)=`${movieData.title} IMDB Page`
-                        button.rentMovie Rent This Movie
-                        button.getMovie Get More DB Info
                         if isAdmin
                             .editMovie
                                 - const currentYear = new Date().getFullYear();
@@ -44,4 +42,4 @@ html
                                 button.editMovieBtn Edit Movie Data
                         else
                             button.rentMovie Rent This Movie
-                            button.getMovie Get More DB Info
+                            button.returnMovie Return Movie
