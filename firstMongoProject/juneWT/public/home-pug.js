@@ -1,6 +1,3 @@
-// const Movie = require('../models/Movie');  //MongoDB collection is accessible through this variable
-
-
 function clickedBtn() {
     console.log('test')
 }
@@ -16,14 +13,11 @@ window.onload = () => {
 
     reqSingleMovieData.onclick = clickedBtn;
 
-    deleteSingleMovie.onclick = clickedDltBtn;
-    
+    deleteSingleMovie.onclick = clickedDltBtn;    
 
     const editDivs = document.getElementsByClassName('editMovie');
 
-    for( const div of editDivs) {div.style.display = 'none';
-
-   
+    for( const div of editDivs) {div.style.display = 'none';   
 
 };
 
@@ -52,9 +46,21 @@ function setEventListeners() {
 
     for( const button of editSubmitButtons) {button.onclick = submitEditReq};  
 
+    
+    const returnSubmitButtons = document.getElementsByClassName('returnMovie');
+
+    for( const button of returnSubmitButtons) {button.onclick = submitReturnReq}; 
+
+    const rentSubmitButtons = document.getElementsByClassName('rentMovie');
+
+    for( const button of rentSubmitButtons) {button.onclick = submitRentReq}; 
+
+    console.log(rentSubmitButtons)
+
     const logoutBtn = document.getElementById('logoutBtn');
     const loginBtn = document.getElementById('loginBtn');
     const adminBtn = document.getElementById('adminBtn');
+
 
     if (loginBtn) {
         
@@ -72,15 +78,75 @@ function setEventListeners() {
         
     }
 
-
-
 }
 
+function submitReturnReq(){
+    const movieId = this.parentElement.id;
 
+    const movieObj = {movieId: movieId, isRenting: false};
+
+    const endPoint = location.origin +'/user/rent_or_return';
+
+    const reqOptions = {headers:   
+        {'Acess-Control-Allow-Origin': '*',
+        Accept: 'application/json',
+        'content-type': 'application/json'}, 
+
+        method: 'PATCH',
+        body: JSON.stringify(movieObj)    
+    }    
+
+    fetch(endPoint, reqOptions)
+    .then(rs => {
+
+        if (rs.status === 200){
+
+            alert('You Have Returned A Movie')
+    
+            } else {
+                
+            alert('You Cannot Return A Movie You Are Not Renting')
+    
+            }        
+
+    })
+}
+
+function submitRentReq(){
+    
+    const movieId = this.parentElement.id;
+
+    const movieObj = {movieId: movieId, isRenting: true};
+
+    const endPoint = location.origin +'/user/rent_or_return';
+
+    const reqOptions = {headers:   
+        {'Acess-Control-Allow-Origin': '*',
+        Accept: 'application/json',
+        'content-type': 'application/json'}, 
+
+        method: 'PATCH',
+        body: JSON.stringify(movieObj)    
+    }    
+
+    fetch(endPoint, reqOptions)
+    .then(rs => {
+        
+    if (rs.status === 200){
+
+        alert('You Have Rented A Movie')
+
+        } else {
+            
+        alert('You Cannot Rent The Same Movie Twice')
+
+        }
+
+})  }
 
 function loginUser() {
 
-    location = location.origin+'/login';
+    location = location.origin + '/login';
     // console.log('test')
 
 }
