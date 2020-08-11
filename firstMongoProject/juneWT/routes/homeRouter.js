@@ -30,7 +30,7 @@ async (req, res) => {
 
     const loggedIn = req.authKey != undefined;
 
-    const allMovies = await Movie.find({ 'inventory.available': {$gte: 5}} );
+    const allMovies = await Movie.find({ 'inventory.available': {$gte: 1}} );
 
     const isAdmin = req.isAdmin || false;
 
